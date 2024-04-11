@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MPL-2.0
 
 identity_token "aws" {
-  audience = ["<Set to your AWS IAM assume-role audience>"]
+  audience = ["aws.workload.identity"]
 }
 
 # A single workload token can be trusted by multiple accounts - but optionally, you can generate a
@@ -15,7 +15,7 @@ identity_token "aws" {
 deployment "development" {
   variables = {
     region              = "us-east-1"
-    role_arn            = "<Set to your development AWS account IAM role ARN>"
+    role_arn            = "arn:aws:iam::886363944443:role/Terraform-OIDC"
     identity_token_file = identity_token.aws.jwt_filename
     default_tags      = { stacks-preview-example = "lambda-multi-account-stack" }
   }
@@ -24,9 +24,8 @@ deployment "development" {
 deployment "production" {
   variables = {
     region              = "us-east-1"
-    role_arn            = "<Set to your production AWS account IAM role ARN>"
+    role_arn            = "arn:aws:iam::886363944443:role/Terraform-OIDC-2"
     identity_token_file = identity_token.aws.jwt_filename
     default_tags      = { stacks-preview-example = "lambda-multi-account-stack" }
   }
 }
-
